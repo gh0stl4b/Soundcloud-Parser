@@ -9,4 +9,4 @@
 ###Notes and requirements
 * You will need to install the savefrom.net plugin to your browser
 * You need an account on soundcloud to save the music that you like to your sets (Then you export the sets as a playlist (M3U Only!))
-* You will probably what to watch the video - Will be shortly
+* You will probably what to watch the video - [http://youtu.be/udsrPgelJKY](http://youtu.be/udsrPgelJKY)
