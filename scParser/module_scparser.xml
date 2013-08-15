@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_scparser" default="compile.module.scparser">
+  <dirname property="module.scparser.basedir" file="${ant.file.module_scparser}"/>
+  
+  <property name="module.jdk.home.scparser" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.scparser" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.scparser" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.scparser" value="${compiler.args}"/>
+  
+  <property name="scparser.output.dir" value="${module.scparser.basedir}/../out/production/scParser"/>
+  <property name="scparser.testoutput.dir" value="${module.scparser.basedir}/../out/test/scParser"/>
+  
+  <path id="scparser.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="scparser.module.production.classpath">
+    <path refid="${module.jdk.classpath.scparser}"/>
+  </path>
+  
+  <path id="scparser.runtime.production.module.classpath">
+    <pathelement location="${scparser.output.dir}"/>
+  </path>
+  
+  <path id="scparser.module.classpath">
+    <path refid="${module.jdk.classpath.scparser}"/>
+    <pathelement location="${scparser.output.dir}"/>
+  </path>
+  
+  <path id="scparser.runtime.module.classpath">
+    <pathelement location="${scparser.testoutput.dir}"/>
+    <pathelement location="${scparser.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.scparser">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.scparser">
+    <patternset refid="excluded.from.module.scparser"/>
+  </patternset>
+  
+  <path id="scparser.module.sourcepath">
+    <dirset dir="${module.scparser.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.scparser" depends="compile.module.scparser.production,compile.module.scparser.tests" description="Compile module scParser"/>
+  
+  <target name="compile.module.scparser.production" depends="register.custom.compilers" description="Compile module scParser; production classes">
+    <mkdir dir="${scparser.output.dir}"/>
+    <javac2 destdir="${scparser.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.scparser}/javac">
+      <compilerarg line="${compiler.args.scparser}"/>
+      <bootclasspath refid="scparser.module.bootclasspath"/>
+      <classpath refid="scparser.module.production.classpath"/>
+      <src refid="scparser.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.scparser"/>
+    </javac2>
+    
+    <copy todir="${scparser.output.dir}">
+      <fileset dir="${module.scparser.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.scparser.tests" depends="register.custom.compilers,compile.module.scparser.production" description="compile module scParser; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.scparser" description="cleanup module">
+    <delete dir="${scparser.output.dir}"/>
+    <delete dir="${scparser.testoutput.dir}"/>
+  </target>
+</project>
